@@ -17,6 +17,7 @@ angular.module('ds.products', [
 		'restangular',
     'ds.shared',
     'ds.cart',
+    'ds.wishlist',
     'ds.fees',
     'ui.bootstrap',
     'angularMoment'

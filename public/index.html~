@@ -145,7 +145,6 @@
     <script src="js/app/cart/services/cart-rest.js"></script>
     <script src="js/app/cart/services/cart-service.js"></script>
     <script src="js/app/cart/services/cart-note-mixin-service.js"></script>
-
     <script src="js/app/wishlist/wishlist-index.js"></script>
     <script src="js/app/wishlist/controllers/wishlist-ctrl.js"></script>
     <script src="js/app/wishlist/controllers/wishlist-note-mixin-ctrl.js"></script>
