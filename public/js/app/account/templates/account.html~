@@ -115,7 +115,7 @@
       </div>
 
       <div class="hidden-md hidden-lg row">
-        <div ng-repeat="m_order in orders | limitTo: showOrdersFilter" class="col-sm-4 col-xs-12 orderHistoryCard" ng-class="{'green': order.status == 'CREATED' || order.status == 'CONFIRMED' || order.status == 'SHIPPED', 'red':  order.status == 'DECLINED', 'blue': order.status == 'COMPLETED' }">
+        <div ng-repeat="m_order in wishlist.items " class="col-sm-4 col-xs-12 orderHistoryCard" ng-class="green">
             <div class="cardStatusIdentifier pull-left" ></div>
             <div class="panel">
                 <div class="panel-body " >
@@ -144,7 +144,7 @@
         </div>
       </div>
 
-      <div ng-if="orders.length"  class="table-responsive hidden-sm hidden-xs">
+      <div ng-if="wishlist.items.length"  class="table-responsive hidden-sm hidden-xs">
         <table class="table">
           <thead>
             <tr>
@@ -154,10 +154,10 @@
             </tr>
           </thead>
           <tbody>
-              <tr ng-repeat="orderRow in orders | limitTo: showOrdersFilter ">
-                  <td>{{orderRow.created | date: 'medium'}}</td>
-                  <td>{{orderRow.totalPrice | currency: orderRow.currencySymbol}}</td>
-                  <td><strong>{{orderRow.status | translate}}</strong></td>
+              <tr ng-repeat="item in wishlist.items ">
+                  <td>{{item.createdAt | date: 'medium'}}</td>
+                  <td>{{item.product}}</td>
+                  <td><strong>10</strong></td>
               </tr>
           </tbody>
         </table>
