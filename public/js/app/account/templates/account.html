@@ -145,6 +145,9 @@
       </div>
 
       <div ng-if="wishlist.items.length"  class="table-responsive hidden-sm hidden-xs">
+	<button id="add-address-btn" class="btn btn-secondary btn-md pull-right" ng-click="wishTotalPrice()">
+              {{'ADD_WISH' | translate}}
+        </button>
         <table class="table">
           <thead>
             <tr>
@@ -163,15 +166,9 @@
         </table>
       </div>
 
-      <p ng-if="!orders.length && orders.headers">{{'NO_WISHLIST' | translate}}</p>
-      <p ng-if="!orders.length && !orders.headers">{{'FAIL_ORDER' | translate}}</p>
+      <p ng-if="!wishlist.items.length">{{'NO_WISHLIST' | translate}}</p>
+      <p ng-if="!wishlist.items.length">{{'FAIL_WISHLIST' | translate}}</p>
 
-      <div class="text-center" ng-if="showOrderButtons">
-        <button class="btn btn-link" ng-show="showAllOrdersButton" ng-click="showAllOrders()">{{'SHOW_ALL' | translate}} <span class="glyphicon glyphicon-chevron-down"/></button>
-        <button class="btn btn-link" ng-show="!showAllOrdersButton" ng-click="showAllOrders()">{{'SHOW_LESS' | translate}} <span class="glyphicon glyphicon-chevron-up"/></button>
-      </div>
-
-      
     </div>
 
   </section>
