@@ -34,22 +34,23 @@ angular.module('ds.wishlist')
             // Prototype for wishlist as used in UI
             var Wishlist = function () {
 		this.id = null;
-                this.owner = "";
-                this.title = "";
-                this.description = "";
-                this.createdAt = "";
+                this.owner = '';
+                this.title = '';
+                this.description = '';
+                this.createdAt = '';
 		this.items = [];
             };
 
 	    var Item = function () {
-		this.product = "";
-		this.amount = "";
-		this.note = "";
-		this.createdAt = "";
+		this.product = '';
+		this.amount = '';
+		this.note = '';
+		this.createdAt = '';
 	    }
 
             // application scope wishlist instance
             var wishlist = {};
+            var items = [];
 
             /**  Ensure there is a wishlist associated with the current session.
              * Returns a promise for the existing or newly created wishlist.  Wishlist will only contain the id.
@@ -66,25 +67,16 @@ angular.module('ds.wishlist')
                     var newWishlist = {};
                     var accPromise = AccountSvc.getCurrentAccount();
                     accPromise.then(function (successAccount) {
-                        newWishlist.customerId = successAccount.id;
+                        newWishlist.owner = successAccount.id;
                     });
                     accPromise.finally(function () {
-                        newWishlist.id = "98hw85Y945e6U358";
-                        newWishlist.owner = "345MWyh7w4hY98W6";
-                        newWishlist.title = "Floyd's Birthday Wishlist";
-			newWishlist.description = "Test Bring on the presents:)";
-                        newWishlist.createdAt = "2012-07-12T12:42:23.777Z";
-			
-			var item = {};
-			item.product = "yKsU0y+PQUPgTIYm";
-			item.amount = "1";
-			item.note = "Always wanted a Ferrari";
-			item.createdAt = "2012-07-12T13:23:31.415Z";
-			newWishlist.items = [item];
-
+                        newWishlist.id=new Date().getTime();                      
+                        newWishlist.title = 'test';
+			newWishlist.description = 'test';
+                        newWishlist.createdAt = new Date();
                         WishlistREST.Wishlist.all('wishlists').post(newWishlist).then(function (response) {
-                            wishlist.id = response.wishlistId;
-                            deferredWishlist.resolve({ wishlistId: wishlist.id });
+                            deferredWishlist.resolve({ wishlistId: response.id });
+                            deferredWishlist.resolve({ wishlist.id: response.id });
 
                         }, function () {
                             deferredWishlist.reject();
@@ -255,13 +247,20 @@ angular.module('ds.wishlist')
                     if(prices[0].measurementUnit) {
                         price.measurementUnit =  {'unit' : prices[0].measurementUnit.unitCode, 'quantity' : prices[0].measurementUnit.quantity};
                     }
-                    var item = new Item(product, price, qty);
-
-                    WishlistREST.Wishlist.one('wishlists', wishlistResult.wishlistId).all('items').post(item).then(function () {
-                        refreshWishlist(wishlistResult.wishlistId, wishlistUpdateMode, closeWishlistAfterTimeout);
+			var Item = function () {
+					this.product = '';
+					this.amount = '';
+					this.note = 'test';
+					this.createdAt = new Date();
+				    }
+                    var item = new Item();
+                    item.product=product.id
+                    item.amount=qty                                        
+                    WishlistREST.Wishlist.one('wishlists', wishlistResult.wishlistId).all('wishlistItems').post(item).then(function () {
+//                        refreshWishlist(wishlistResult.wishlistId, wishlistUpdateMode, closeWishlistAfterTimeout);
                         createItemDef.resolve();
                     }, function () {
-                        refreshWishlist(wishlist.id, wishlistUpdateMode, closeWishlistAfterTimeout);
+                       // refreshWishlist(wishlist.id, wishlistUpdateMode, closeWishlistAfterTimeout);
                         createItemDef.reject();
                     });
 

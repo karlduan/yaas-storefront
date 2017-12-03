@@ -114,7 +114,7 @@ module.exports = function(config){
         'public/js/app/wishlist/services/wishlist-service.js',
         'public/js/app/wishlist/services/wishlist-rest.js',
         'public/js/app/wishlist/services/wishlist-note-mixin-service.js',
-	'public/js/app/wishlist/services/wish-list-service.js',
+	'public/js/app/wishlist/services/account-wishlist-service.js',
 
         'public/js/app/checkout/checkout-index.js',
         'public/js/app/checkout/controllers/checkout-ctrl.js',
