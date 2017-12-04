@@ -25,7 +25,8 @@ angular.module('ds.shared')
         function SiteConfigSvcProvider(appConfig) {
 
             var apiPath, tenantId = '';
-            var wishlistPath='localhost:8080';
+            //var wishlistPath='localhost:8080';
+            var wishlistPath='10.0.0.12:8080';
 
             // handle dynamic tenant data.
             if (!_.isEmpty(appConfig) && !_.isEmpty(appConfig.storeTenant())) {

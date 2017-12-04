@@ -18,12 +18,19 @@ angular.module('ds.wishlist')
         var getWishlist = function (parms) {
             var wishlistPromise = WishlistREST.Wishlist.one('wishlists').get();
             wishlistPromise.then(function(response) {
+           //getPrices(response.wishlist.item);
                 if (response.headers) {
                     GlobalData.wishlist.meta.total = parseInt(response.headers[settings.headers.paging.total], 10) || 0;
                 }
             });
             return wishlistPromise;
         };
+
+	//var getPrices = PriceSvc.getPrices(parms).then(function(response){
+	//console.log(response);
+
+//});
+
 
         return {
             /**
@@ -34,6 +41,8 @@ angular.module('ds.wishlist')
             query: function(parms) {
                 return getWishlist(parms);
             }
+           
+
 
         };
 
