@@ -164,7 +164,7 @@ angular.module('ds.products')
                 WishlistSvc.addProductToWishlist(wishlistItem, $scope.product.prices, $scope.productDetailQty, { closeWishlistAfterTimeout: true, openwishlistAfterEdit: false })
                 .then(function(){
                     var productsAddedToWishlist = $filter('translate')('PRODUCTS_ADDED_TO_WISHLIST');
-                    Notification.success({message: $scope.productDetailQty + ' ' + productsAddedToWishlist, delay: 3000});
+                    Notification.success({message: productsAddedToWishlist, delay: 3000});
                 }, function(){
                     $scope.error = 'ERROR_ADDING_TO_WISHLIST';
                 }).finally(function() {
