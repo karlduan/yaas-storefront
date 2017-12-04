@@ -13,7 +13,7 @@
 'use strict';
 
 angular.module('ds.wishlist')
-    .factory('WishListSvc', ['settings', 'GlobalData', 'WishlistREST', function(settings, GlobalData, WishlistREST){
+    .factory('WishListSvc', ['settings', 'GlobalData', 'WishlistREST','PriceSvc', function(settings, GlobalData, WishlistREST,PriceSvc){
 
         var getWishlist = function (parms) {
             var wishlistPromise = WishlistREST.Wishlist.one('wishlists').get();
@@ -23,7 +23,7 @@ angular.module('ds.wishlist')
                 }
             });
             return wishlistPromise;
-        };
+        }; 
 
         return {
             /**

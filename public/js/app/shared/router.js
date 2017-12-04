@@ -288,7 +288,7 @@ angular.module('ds.router', [])
                                 }
                             );
                         }],
-			wishlist: ['WishListSvc', function(WishListSvc) {
+			           wishlist: ['WishListSvc', 'PriceSvc',function(WishListSvc,PriceSvc) {
                             var parms = {
                                 pageSize: 10
                             };
