@@ -13,9 +13,9 @@
 
 angular.module('ds.account')
 
-    .controller('AccountCtrl', ['$scope', 'addresses', 'account', 'orders', 'OrderListSvc','wishlist', 'PriceSvc','AccountSvc','ProductSvc', '$uibModal', 'GlobalData', '$translate',
+    .controller('AccountCtrl', ['$scope', 'addresses', 'account', 'orders', 'OrderListSvc','WishlistSvc','wishlist', 'PriceSvc','AccountSvc','ProductSvc', '$uibModal', 'GlobalData', '$translate',
 
-        function ($scope, addresses, account, orders, OrderListSvc, wishlist, PriceSvc, AccountSvc,ProductSvc,$uibModal, GlobalData, $translate) {
+        function ($scope, addresses, account, orders, OrderListSvc,WishlistSvc, wishlist, PriceSvc, AccountSvc,ProductSvc,$uibModal, GlobalData, $translate) {
 
             var self = this;
             self.allOrdersLoaded = false;
@@ -33,7 +33,9 @@ angular.module('ds.account')
             $scope.addresses = addresses;
             $scope.orders = orders;
             $scope.wishlist = wishlist;
+            $scope.WishlistSvc = WishlistSvc;
             $scope.prices = {};
+            $scope.totalPrices = {};
             $scope.defaultAddress = getDefaultAddress();
 
             // show more or less addresses.
@@ -242,6 +244,10 @@ angular.module('ds.account')
 //                    		$scope.prices.push(fetchedPrice.effectiveAmount);
 //                    		}});
 //            		});
+            	});
+            
+            WishlistSvc.calculateWishlist(wishlist.id).then(function (totalPrices) {
+            	$scope.totalPrices=totalPrices;
             	});
 
             /*

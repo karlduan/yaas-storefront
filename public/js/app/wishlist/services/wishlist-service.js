@@ -496,79 +496,10 @@ angular.module('ds.wishlist')
                     }
                     
                 },
-		
-                redeemCoupon: function (coupon, wishlistId) {
-                    coupon = parseCoupon(coupon);
-                    return WishlistREST.Wishlist.one('wishlists', wishlistId).customPOST(coupon, 'discounts').then(function() {
-                        refreshWishlist(wishlistId, 'manual');
-                    });
-                },
 
-                removeAllCoupons: function (wishlistId) {
-                    return WishlistREST.Wishlist.one('wishlists', wishlistId).all('discounts').remove().then(function () {
-                        refreshWishlist(wishlistId, 'manual');
-                    });
-                },
 
-                removeCoupon: function (wishlistId, couponId) {
-                    return WishlistREST.Wishlist.one('wishlists', wishlistId).one('discounts', couponId).remove().then(function () {
-                        refreshWishlist(wishlistId, 'manual');
-                    });
-                },
-
-                getCalculateTax: function () {
-                    if (!!wishlist && !!wishlist.countryCode && !!wishlist.zipCode) {
-                        return {
-                            countryCode: wishlist.countryCode,
-                            zipCode: wishlist.zipCode,
-                            taxCalculationApplied: true
-                        };
-                    }
-                    return { taxCalculationApplied: false };
-                },
-
-                setCalculateTax: function (zipCode, countryCode, wishlistId) {
-                    return WishlistREST.Wishlist.one('wishlists', wishlistId).customPUT({ zipCode: zipCode, countryCode: countryCode }, '').then(function () {
-                        refreshWishlist(wishlistId, 'manual');
-                    });
-                },
-
-                recalculateWishlist: function (wishlist, addressToShip, shippingCostObject) {
-                    var items = reformatWishlistItems(wishlist);
-                    var discounts = [];
-                    angular.forEach(wishlist.discounts, function(discount){
-                        discounts.push({
-                            discountRate: discount.discountRate,
-                            amount: discount.amount,
-                            currency: discount.currency,
-                            calculationType: discount.calculationType
-                        });
-                    });
-                    var data = {
-                        wishlistId: wishlist.id,
-                        siteCode: GlobalData.getSiteCode(),
-                        currency: GlobalData.getCurrency(),
-                        items: items,
-                        discounts: discounts,
-                        addresses: [
-                            {
-                              type: 'SHIP_TO',
-                              addressLine1: addressToShip.address1,
-                              city: addressToShip.city,
-                              state: addressToShip.state,
-                              zipCode: addressToShip.zipCode,
-                              country: addressToShip.country
-                            }
-                        ]
-                    };
-                    if (shippingCostObject) {
-                        data.shipping = {
-                            calculationType: 'QUOTATION',
-                            methodId: shippingCostObject.id,
-                            zoneId: shippingCostObject.zoneId
-                        };
-                    }
-                    return WishlistREST.CalculateWishlist.all('calculation').customPOST(data, '');
+                calculateWishlist: function (wishlistId) {
+                    return WishlistREST.CalculateWishlist.one('wishlists', wishlistId).one('wishlistcalculation');
                 }
 
             };

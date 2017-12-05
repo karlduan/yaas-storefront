@@ -114,7 +114,7 @@
         <h2>{{'WISH_LIST' | translate}}</h2>
       </div> 
       <div ng-if="wishlist.items.length"  class="table-responsive hidden-sm hidden-xs">
-	    <button id="add-address-btn" class="btn btn-secondary btn-md pull-right" ng-click="wishTotalPrice()">
+	    <button id="add-address-btn" class="btn btn-secondary btn-md pull-right" ng-click="calculateWishlist()">
               {{'TOTAL_PRICE' | translate}}
         </button>
         <table class="table">
