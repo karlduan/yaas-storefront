@@ -79,13 +79,22 @@
                                         </small>
                                     </div>
                                 </div>
+                                
+                                <!-- error notification -->
+                                <div ng-if="error" class="col-md-8 col-md-offset-2">
+                                    <div class="error">
+                                        <small class="help-inline has-error">
+                                            {{'ERROR_ADDING_TO_WISHLIST' | translate}}
+                                        </small>
+                                    </div>
+                                </div>
 
                                 <!-- add to cart -->
                                 <div class="col-md-8 col-md-offset-2">
                                     <button id="buy-button" type="button" class="btn btn-primary btn-block buyButton" ng-click="addToCartFromDetailPage()"
                                         ng-disabled="!buyButtonEnabled">{{'ADD_TO_CART' | translate}}</button>
                                 </div>
-				<!-- add to wishlist -->
+				                <!-- add to wishlist -->
                                 <div class="col-md-8 col-md-offset-2">
                                     <button id="wishlist-button" type="button" class="btn btn-primary btn-block buyButton" ng-click="addToWishlistFromDetailPage()"
                                         ng-disabled="!buyButtonEnabled">{{'ADD_TO_WISHLIST' | translate}}</button>

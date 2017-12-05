@@ -301,19 +301,6 @@ angular.module('ds.router', [])
                                 }
                             );
                         }]
-                         // prices: ['PriceSvc', function(PriceSvc) {
-                            //var parms = {
-                            //    pageSize: 10
-                           // };
-                          //  return PriceSvc.query(parms).then(
-                           //     function (response) {
-                             //       return response;
-                              //  },
-                               // function () {
-                                //    return [];
-                               // }
-                           // );
-                        //}]
                     },
                     data: {
                         auth: 'authenticated'

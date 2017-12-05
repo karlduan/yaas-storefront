@@ -33,20 +33,20 @@ angular.module('ds.wishlist')
 
             // Prototype for wishlist as used in UI
             var Wishlist = function () {
-		this.id = null;
+            	this.id = null;
                 this.owner = '';
                 this.title = '';
                 this.description = '';
                 this.createdAt = '';
-		this.items = [];
+                this.items = [];
             };
 
-	    var Item = function () {
-		this.product = '';
-		this.amount = '';
-		this.note = '';
-		this.createdAt = '';
-	    }
+            var Item = function () {
+            this.product = '';
+		    this.amount = '';
+		    this.note = '';
+		    this.createdAt = '';
+	        }
 
             // application scope wishlist instance
             var wishlist = {};

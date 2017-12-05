@@ -112,40 +112,9 @@
     <div class="container-fluid">
       <div class="section-headline clearfix">
         <h2>{{'WISH_LIST' | translate}}</h2>
-      </div>
-
-      <div class="hidden-md hidden-lg row">
-        <div ng-repeat="m_order in wishlist.items " class="col-sm-4 col-xs-12 orderHistoryCard" ng-class="green">
-            <div class="cardStatusIdentifier pull-left" ></div>
-            <div class="panel">
-                <div class="panel-body " >
-                    <div class="row">
-                        <div class="col-sm-8 col-xs-8 leftCol">
-                            <p>
-                              <strong>{{'PLACED_AT'|translate}}</strong><br/>
-                              {{m_order.created | date: 'medium'}}
-                            </p>
-                            <p>
-                                <strong>{{'ORDER_NUMBER'|translate}}</strong><br/>
-                                <a ui-sref="base.orderDetail({orderId: m_order.id})">{{m_order.id}}</a>
-                            </p>
-                            <p>
-                                <strong>{{'ITEMS_IN_ORDER'|translate}}</strong><br/>
-                                {{m_order.entries|sumByKey:'amount'|showNoOfItems}}
-                            </p>
-                            <p>{{m_order.totalPrice | currency: m_order.currencySymbol}}</p>
-                        </div>
-                        <div class="col-sm-4 col-xs-4">
-                          <p><strong>{{m_order.status | translate}}</strong></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-      </div>
-
+      </div> 
       <div ng-if="wishlist.items.length"  class="table-responsive hidden-sm hidden-xs">
-	<button id="add-address-btn" class="btn btn-secondary btn-md pull-right" ng-click="wishTotalPrice()">
+	    <button id="add-address-btn" class="btn btn-secondary btn-md pull-right" ng-click="wishTotalPrice()">
               {{'TOTAL_PRICE' | translate}}
         </button>
         <table class="table">
@@ -160,7 +129,8 @@
               <tr ng-repeat="item in wishlist.items ">
                   <td>{{item.createdAt | date: 'medium'}}</td>
                   <td>{{item.product}}</td>
-                  <td><strong>10</strong></td>
+                  {{prices(item.product)}}
+                  <td><strong>prices(item.product).singlePrice(effectiveAmount)</strong></td>
               </tr>
           </tbody>
         </table>

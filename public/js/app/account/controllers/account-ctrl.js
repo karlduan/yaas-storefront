@@ -31,8 +31,8 @@ angular.module('ds.account')
             $scope.errors = [];
             $scope.account = account;
             $scope.addresses = addresses;
-            $scope.orders = orders;	    
-            $scope.products= [];
+            $scope.orders = orders;
+            $scope.wishlist = wishlist;
             $scope.prices = {};
             $scope.defaultAddress = getDefaultAddress();
 
@@ -211,57 +211,39 @@ angular.module('ds.account')
                 $scope.showAddressFilter = $scope.showAllAddressButton ? $scope.showAddressDefault : $scope.addresses.length;
                 $scope.showAddressButtons = ($scope.addresses.length > $scope.showAddressDefault);
             };
-            function getProductIdsFromWishlist(items){
-              return _.map(items, function(item){
-                return item.itemYrn ? getIdFromItemYrn(item.itemYrn) : '';
-              }).join(',');
-            };
-            function getProductNamesFromWishlist(wishlist) {
-              var items =  (wishlist.items ? wishlist.items : []);
+            
+            var Item = function () {
+				this.id = '';
+				this.amount = '';
+				this.note = '';
+				this.createdAt = '';
+			    };
+                
+            var items = [];
+            for (var i = 0; i < $scope.wishlist.items.length; i++) {
+            	var item = new Item();
+            	item.id=$scope.wishlist.items[i].product;
+            	item.amount=$scope.wishlist.items[i].amount;
+            	item.note=$scope.wishlist.items[i].note;
+            	item.createdAt=$scope.wishlist.items[i].createdAt;
+                items.push(item);
+            }
+            
+            PriceSvc.getPricesMapForProducts(items, GlobalData.getCurrencyId())
+            .then(function (prices) {
+            	$scope.prices=prices;
+//            	angular.forEach(fetchedPrices, function (fetchedPrice) {
+//            		var fetchedPriceProductId=fetchedPrice.productId;
+//            		angular.forEach(items, function (item){
+//            			if (item.id==fetchedPriceProductId){
+//            				console.log("item.id is "+item.id);
+//            				console.log("fetchedPriceProductId "+fetchedPriceProductId);
+//            				console.log("prices is "+fetchedPrice.effectiveAmount);
+//                    		$scope.prices.push(fetchedPrice.effectiveAmount);
+//                    		}});
+//            		});
+            	});
 
-                    if(!_.isEmpty(items)){
-                      var productList = getProductIdsFromWishlist(items);
-
-                      ProductSvc.queryProductList({q:'id:('+productList+')'}).then(function(res){
-                        var products = res.plain();
-                        _.forEach(items, function(item){
-                          if(item.itemYrn){
-
-                            var split = item.itemYrn.split(';');
-
-                            var prod = _.find(products, {id:split[1]});
-
-                            item.product = {
-                              id:prod.id,
-                              name:prod.name,
-                              images:prod.media,
-                              sku:prod.code
-                            };
-
-                            if(_.contains(item.itemYrn, 'product-variant')){
-                              ProductSvc.getProductVariant({productId:split[1],variantId:split[2]}).then(function(variant){
-
-                                item.variants=[];
-                                _.forEach(variant.options, function(ele){
-                                  for (var key in ele) {
-                                    item.variants.push(key+': '+ ele[key] );
-                                  }
-                                });
-
-                                if(_.isArray(variant.media) && _.size(variant.media) > 0){
-                                    item.product.images = variant.media;
-                                    item.product.code = variant.code;
-                                }
-                                if(variant.name) {
-                                  item.product.name = variant.name;
-                                }
-                              });
-                            }
-                          }
-                        });
-                      });
-                    }
-             };
             /*
              need to set the currency symbol for each order
              */

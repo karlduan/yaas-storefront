@@ -362,6 +362,10 @@
     "ADD_TO_CART": "Add to Cart",
     //XMSG
     "PRODUCTS_ADDED_TO_CART": "product(s) successfully added to your cart",
+    //XBUT
+    "ADD_TO_WISHLIST": "Add to Wishlist",
+    //XMSG
+    "PRODUCTS_ADDED_TO_CART": "product(s) successfully added to your wishlist",
     //XTIT
     "PRODUCT_DESCRIPTION": "Product Description",
     //XTIT
@@ -384,6 +388,8 @@
     "NO_LIMIT": "No Limit",
     //XMSG
     "ERROR_ADDING_TO_CART": "Add to Cart was not successful.  Please try again.",
+    //XMSG
+    "ERROR_ADDING_TO_WISHLIST":"Add to Wishlist was not successful.  Please try again.",
     
     //XTBS
     "DESCRIPTION_TAB": "Description",
@@ -502,6 +508,12 @@
     //XFLD
     "ORDER_CANCEL": "Cancel Order",
     //XFLD
+    "WISH_DATE":"Date",
+    //XFLD
+    "WISH_PRODUCT":"Product",
+    //XFLD
+    "WISH_PRICE":"Price",
+    //XFLD
     "ORDER_CANCEL_ERROR": "Cancelation failed, please contact customer service or try again later",
     //XFLD
     "FAIL_ORDER": "Orders not available. Try again later.",
@@ -556,6 +568,7 @@
     "REMOVE_ADDRESS_ERROR": "Deleting address failed. Please try again.",
     //XMSG
     "UPDATE_DEFAULT_ADDRESS_ERROR": "Updating default address failed. Please try again.",
+    
 
 
     //XTIT
