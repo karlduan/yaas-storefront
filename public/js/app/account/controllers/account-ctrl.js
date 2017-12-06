@@ -34,7 +34,7 @@ angular.module('ds.account')
             $scope.orders = orders;
             $scope.wishlist = wishlist;
             $scope.WishlistSvc = WishlistSvc;
-            $scope.prices = {};
+            $scope.prices = [];
             $scope.totalPrices = {};
             $scope.defaultAddress = getDefaultAddress();
 
@@ -232,23 +232,23 @@ angular.module('ds.account')
             }
             
             PriceSvc.getPricesMapForProducts(items, GlobalData.getCurrencyId())
-            .then(function (prices) {
-            	$scope.prices=prices;
-//            	angular.forEach(fetchedPrices, function (fetchedPrice) {
-//            		var fetchedPriceProductId=fetchedPrice.productId;
-//            		angular.forEach(items, function (item){
-//            			if (item.id==fetchedPriceProductId){
+            .then(function (prices) {            	
+            	angular.forEach(prices, function (fetchedPrice) {
+            		if(fetchedPrice.singlePrice&&fetchedPrice.singlePrice.effectiveAmount){
+            			var fetchedPriceProductId=fetchedPrice.singlePrice.productId;
+            		angular.forEach(items, function (item){
+            			if (item.id==fetchedPriceProductId){
 //            				console.log("item.id is "+item.id);
 //            				console.log("fetchedPriceProductId "+fetchedPriceProductId);
-//            				console.log("prices is "+fetchedPrice.effectiveAmount);
-//                    		$scope.prices.push(fetchedPrice.effectiveAmount);
-//                    		}});
-//            		});
+//            				console.log("prices is "+fetchedPrice.singlePrice.effectiveAmount);
+            				$scope.prices.push(fetchedPrice.singlePrice.effectiveAmount);
+                    		}});
+            		}});
             	});
             
-            WishlistSvc.calculateWishlist(wishlist.id).then(function (totalPrices) {
-            	$scope.totalPrices=totalPrices;
-            	});
+//            WishlistSvc.calculateWishlist(wishlist.id).then(function (totalPrices) {
+//            	$scope.totalPrices=totalPrices;
+//            	});
 
             /*
              need to set the currency symbol for each order
