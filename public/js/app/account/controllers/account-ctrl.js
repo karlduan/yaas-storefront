@@ -36,6 +36,7 @@ angular.module('ds.account')
             $scope.WishlistSvc = WishlistSvc;
             $scope.prices = [];
             $scope.totalPrices = {};
+            $scope.itemModels = [];
             $scope.defaultAddress = getDefaultAddress();
 
             // show more or less addresses.
@@ -214,41 +215,11 @@ angular.module('ds.account')
                 $scope.showAddressButtons = ($scope.addresses.length > $scope.showAddressDefault);
             };
             
-            var Item = function () {
-				this.id = '';
-				this.amount = '';
-				this.note = '';
-				this.createdAt = '';
-			    };
-                
-            var items = [];
-            for (var i = 0; i < $scope.wishlist.items.length; i++) {
-            	var item = new Item();
-            	item.id=$scope.wishlist.items[i].product;
-            	item.amount=$scope.wishlist.items[i].amount;
-            	item.note=$scope.wishlist.items[i].note;
-            	item.createdAt=$scope.wishlist.items[i].createdAt;
-                items.push(item);
-            }
-            
-            PriceSvc.getPricesMapForProducts(items, GlobalData.getCurrencyId())
-            .then(function (prices) {            	
-            	angular.forEach(prices, function (fetchedPrice) {
-            		if(fetchedPrice.singlePrice&&fetchedPrice.singlePrice.effectiveAmount){
-            			var fetchedPriceProductId=fetchedPrice.singlePrice.productId;
-            		angular.forEach(items, function (item){
-            			if (item.id==fetchedPriceProductId){
-//            				console.log("item.id is "+item.id);
-//            				console.log("fetchedPriceProductId "+fetchedPriceProductId);
-//            				console.log("prices is "+fetchedPrice.singlePrice.effectiveAmount);
-            				$scope.prices.push(fetchedPrice.singlePrice.effectiveAmount);
-                    		}});
-            		}});
-            	});
-            
-//            WishlistSvc.calculateWishlist(wishlist.id).then(function (totalPrices) {
-//            	$scope.totalPrices=totalPrices;
-//            	});
+            var items =  (wishlist.items ? wishlist.items : []);
+            if(!_.isEmpty(items)){
+            	$scope.itemModels=WishlistSvc.getItemModelsInPriceSvc(wishlist);
+            	WishlistSvc.reFreshItemModelsInProductSvc($scope.itemModels);
+            };
 
             /*
              need to set the currency symbol for each order

@@ -14,8 +14,8 @@
 
 angular.module('ds.wishlist')
 
-    .factory('WishlistSvc', ['$rootScope', 'WishlistREST','ProductSvc', 'AccountSvc', '$q', 'GlobalData', '$location',
-        function ($rootScope, WishlistREST, ProductSvc, AccountSvc, $q, GlobalData) {
+    .factory('WishlistSvc', ['$rootScope', 'WishlistREST','ProductSvc','PriceSvc', 'AccountSvc', '$q', 'GlobalData', '$location',
+        function ($rootScope, WishlistREST, ProductSvc,PriceSvc, AccountSvc, $q, GlobalData) {
 
             // Prototype for outbound "update wishlist item" call
             var Item = function (product, price, qty) {
@@ -500,7 +500,61 @@ angular.module('ds.wishlist')
 
                 calculateWishlist: function (wishlistId) {
                     return WishlistREST.CalculateWishlist.one('wishlists', wishlistId).one('wishlistcalculation');
-                }
+                },
+                
+                    
+                getItemModelsInPriceSvc: function (wishlist) {
+                	var ItemModel = function () {
+         				this.id = '';
+         				this.amount = '';
+         				this.note = '';
+         				this.createdAt = '';
+         				this.price='';
+         				this.product='';
+         			 };
+         			 var itemModels = []; 		  				 
+                     for (var i = 0; i < wishlist.items.length; i++) {
+                        var itemModel = new ItemModel();
+                        itemModel.id=wishlist.items[i].product;
+                        itemModel.amount=wishlist.items[i].amount;
+                        itemModel.note=wishlist.items[i].note;
+                        itemModel.createdAt=wishlist.items[i].createdAt;
+                        itemModels.push(itemModel);
+                     }
+                  	PriceSvc.getPricesMapForProducts(itemModels, GlobalData.getCurrencyId())
+                      .then(function (prices) {            	
+                      	angular.forEach(prices, function (fetchedPrice) {
+                      		if(fetchedPrice.singlePrice&&fetchedPrice.singlePrice.effectiveAmount){
+                      			var fetchedPriceProductId=fetchedPrice.singlePrice.productId;
+                      		angular.forEach(itemModels, function (itemModel){
+                      			if (itemModel.id==fetchedPriceProductId){
+//                      				console.log("item.id is "+item.id);
+//                      				console.log("fetchedPriceProductId "+fetchedPriceProductId);
+//                      				console.log("prices is "+fetchedPrice.singlePrice.effectiveAmount);
+                      				itemModel.price=fetchedPrice.singlePrice.effectiveAmount;
+                              		}});
+                      		}});
+                      	});
+                  	return itemModels;
+                },
+                
+             reFreshItemModelsInProductSvc: function (itemModels) {
+                var productList='';
+            	angular.forEach(itemModels, function (itemModel,index) {
+            		productList=productList+itemModel.id+((index==itemModels.length-1)?'':',');
+            	});
+	            ProductSvc.queryProductList({q:'id:('+productList+')'}).then(function(products){
+	            	angular.forEach(products, function (product) {
+	            		angular.forEach(itemModels, function (itemModel){
+                  			if (itemModel.id==product.id){
+                  				itemModel.product=product.name;
+                  			}
+	            	});
+	            });
+	            
+	            });
+	            }
+                
 
             };
 

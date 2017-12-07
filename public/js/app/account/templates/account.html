@@ -126,17 +126,17 @@
             </tr>
           </thead>
           <tbody>
-              <tr ng-repeat="item in wishlist.items ">
+              <tr ng-repeat="item in itemModels ">
                   <td>{{item.createdAt | date: 'medium'}}</td>
                   <td>{{item.product}}</td>
-                  <td><strong>{{14.99}}</strong></td>
+                  <td><strong>{{item.price}}</strong></td>
 		     </tr>
 			   
           </tbody>
         </table>
       </div>
 
-      <p ng-if="!wishlist.items.length">{{'NO_WISHLIST' | translate}}</p>
+      <p ng-if="!itemModels.length">{{'NO_WISHLIST' | translate}}</p>
       <!--<p ng-if="!wishlist.items.length">{{'FAIL_WISHLIST' | translate}}</p>-->
 
     </div>

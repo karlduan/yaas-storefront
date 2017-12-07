@@ -126,22 +126,4 @@ angular.module('ds.wishlist')
                     }
                 };
 
-                $scope.applyTax = function () {
-                    $scope.taxEstimationError = false;
-                    if ($scope.calculateTax.countryCode !== '' && $scope.calculateTax.zipCode !== '') {
-                        //Save countryCode and zipCode in service
-                        WishlistSvc.setCalculateTax($scope.calculateTax.zipCode, $scope.calculateTax.countryCode, $scope.wishlist.id);
-
-                        $scope.calculateTax.taxCalculationApplied = true;
-
-                    }
-                    else {
-                        //Show error message
-                        $scope.calculateTax.taxCalculationApplied = false;
-                        $scope.showTaxEstimation = false;
-                        $scope.taxEstimationError = true;
-                    }
-
-                };
-
     }]);
