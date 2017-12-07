@@ -1,0 +1,18 @@
+<div class="modal-header" ng-cloak>
+    <button type="button" class="close" ng-click="close()" data-dismiss="modal">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">{{'CLOSE' | translate}}</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel">{{'WISHLIST_PRODUCT_TOTAL_PRICE_TITLE' | translate}}</h4>
+</div>
+<div class="modal-body" stop-event="touchend">
+    <div class="row">
+        <div class="col-xs-12">
+            {{'WISHLIST_PRODUCT_TOTAL_PRICE'|translate}}
+            {{totalPrice}}
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" ng-click="close()" id="cancel-delete-address-btn" class="btn btn-secondary btn-lg">{{'OK'}}</button>
+</div>

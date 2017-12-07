@@ -497,10 +497,16 @@ angular.module('ds.wishlist')
                     
                 },
 
-
-                calculateWishlist: function (wishlistId) {
-                    return WishlistREST.CalculateWishlist.one('wishlists', wishlistId).one('wishlistcalculation');
+                calculateWishlist: function (itemModels) {
+                	var totalPrice=0.00;
+                	angular.forEach(itemModels, function (itemModel){
+                		totalPrice=(parseFloat(totalPrice)+parseFloat(itemModel.price)).toFixed(2);
+                	});
+                	console.log(totalPrice);
+                	return totalPrice;
+//                    return WishlistREST.CalculateWishlist.one('wishlists', wishlistId).one('wishlistcalculation');
                 },
+                
                 
                     
                 getItemModelsInPriceSvc: function (wishlist) {
@@ -522,15 +528,12 @@ angular.module('ds.wishlist')
                         itemModels.push(itemModel);
                      }
                   	PriceSvc.getPricesMapForProducts(itemModels, GlobalData.getCurrencyId())
-                      .then(function (prices) {            	
+                      .then(function (prices) {
                       	angular.forEach(prices, function (fetchedPrice) {
                       		if(fetchedPrice.singlePrice&&fetchedPrice.singlePrice.effectiveAmount){
                       			var fetchedPriceProductId=fetchedPrice.singlePrice.productId;
                       		angular.forEach(itemModels, function (itemModel){
                       			if (itemModel.id==fetchedPriceProductId){
-//                      				console.log("item.id is "+item.id);
-//                      				console.log("fetchedPriceProductId "+fetchedPriceProductId);
-//                      				console.log("prices is "+fetchedPrice.singlePrice.effectiveAmount);
                       				itemModel.price=fetchedPrice.singlePrice.effectiveAmount;
                               		}});
                       		}});

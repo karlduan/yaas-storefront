@@ -35,7 +35,6 @@ angular.module('ds.account')
             $scope.wishlist = wishlist;
             $scope.WishlistSvc = WishlistSvc;
             $scope.prices = [];
-            $scope.totalPrices = {};
             $scope.itemModels = [];
             $scope.defaultAddress = getDefaultAddress();
 
@@ -163,15 +162,6 @@ angular.module('ds.account')
                 });
             };
 
-            $scope.refreshAddresses = function () {
-                AccountSvc.getAddresses().then(function (addresses) {
-                    $scope.addresses = addresses;
-                    $scope.defaultAddress = getDefaultAddress();
-                    $scope.showAddressButtons = ($scope.addresses.length > $scope.showAddressDefault);
-                    $scope.showAllAddressButton = ($scope.addresses.length > $scope.showAddressFilter - 1);
-                });
-            };
-
             $scope.setAddressAsDefault = function (address) {
                 address.isDefault = true;
                 address.account = customerNumber;
@@ -214,6 +204,30 @@ angular.module('ds.account')
                 $scope.showAddressFilter = $scope.showAllAddressButton ? $scope.showAddressDefault : $scope.addresses.length;
                 $scope.showAddressButtons = ($scope.addresses.length > $scope.showAddressDefault);
             };
+            
+            $scope.calculateWishlist = function (confirm,canel) {
+            	$uibModal.open({
+            		templateUrl: 'js/app/account/templates/dialogs/wishlist-calculation-dialog.html',
+            		controller: 'WishlistCalculationCtrl',
+            		 resolve : {  
+            			 accountScope : function() {
+                             return $scope;
+                         }  
+                     }
+            	}).opened.then(function(){
+                });
+            };
+            
+            
+
+//            $scope.refreshAddresses = function () {
+//                AccountSvc.getAddresses().then(function (addresses) {
+//                    $scope.addresses = addresses;
+//                    $scope.defaultAddress = getDefaultAddress();
+//                    $scope.showAddressButtons = ($scope.addresses.length > $scope.showAddressDefault);
+//                    $scope.showAllAddressButton = ($scope.addresses.length > $scope.showAddressFilter - 1);
+//                });
+//            };
             
             var items =  (wishlist.items ? wishlist.items : []);
             if(!_.isEmpty(items)){
